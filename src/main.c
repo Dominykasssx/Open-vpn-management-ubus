@@ -38,14 +38,11 @@ int main(int argc, char *argv[])
 
     int socket;
     rc = socketConnect(atoi(arguments.port),&socket);
-    if (rc != 0)
-    {
+    if (rc != 0){
         printf("FAILED CONNECT TO SOCKET");
         return 1;
     }
-
-    ubusMethod(socket);
-
+    ubusStart(socket);
 
     return 0;
 }

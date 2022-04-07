@@ -1,1 +1,1 @@
-int ubusMethod(int socket);
+int ubusStart(int socket);

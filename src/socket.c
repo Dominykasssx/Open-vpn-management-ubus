@@ -6,7 +6,6 @@
 #include <syslog.h>
 #include "socket.h"
 
-
 int socketConnect(int port, int* oSocket)
 {
     int sock = 0, valread;
@@ -21,7 +20,6 @@ int socketConnect(int port, int* oSocket)
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
        
-    // Convert IPv4 and IPv6 addresses from text to binary form
     if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) 
     {
         printf("\nInvalid address/ Address not supported \n");
@@ -34,7 +32,6 @@ int socketConnect(int port, int* oSocket)
         return -1;
     }
     *oSocket = sock;
-
     return 0;
 }
 
@@ -46,5 +43,5 @@ int sendCommand(int sock, char *command, char *outBuf){
     printf("Command %s sent\n", command);
     valread = read( sock , buffer, SIZE);
     snprintf(outBuf, SIZE, "%s", buffer);
-    return 0;
+    return rc;
 }

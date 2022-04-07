@@ -31,14 +31,3 @@ struct client* createNodeClient(char *name, char *realAddress, char *bytesSent, 
     client->next = NULL;
     return client;
 }
-
-
-void printClients(struct client *clients){
-	int i = 0;
-    struct client *temp = clients;
-    
-   while (temp != NULL) {
-    printf("\n%s | %s | %s | %s | %s | %s | %s \n", temp->name, temp->virtualAddress, temp->realAddress, temp->last_reference,  temp->bytesSent, temp->bytesReceived, temp->connectedSince);
-    temp = temp->next;
-   }
-}

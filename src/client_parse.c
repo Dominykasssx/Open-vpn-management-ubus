@@ -22,17 +22,14 @@ int parseClient(char *buffer, struct client **list)
   char delimeter[] = "\n\r,";
   token = strtok(buffer, delimeter);
 
-  // skip first table header
   while (token != NULL && strncmp(token, "Connected Since", strlen("Connected Since")) != 0){
     token = strtok(NULL, delimeter);
   }
 
-  // Skip "Connected Since"
   if (strncmp(token, "Connected Since", strlen("Connected Since")) == 0){
     token = strtok(NULL, delimeter);
   }
 
-  // Read all clients info until "ROUTING TABLE"
   while (token != NULL && strncmp(token, "ROUTING TABLE", strlen("ROUTING TABLE")) != 0){
     switch (count){
     case 0:
@@ -63,12 +60,10 @@ int parseClient(char *buffer, struct client **list)
     token = strtok(NULL, delimeter);
   }
 
-  // Skip header
   while (token != NULL && strncmp(token, "Last Ref", strlen("Last Ref")) != 0){
 
     token = strtok(NULL, delimeter);
   }
-  // Skip "Last Ref"
   if (strncmp(token, "Last Ref", strlen("Last Ref")) == 0){
     token = strtok(NULL, delimeter);
   }
@@ -77,7 +72,6 @@ int parseClient(char *buffer, struct client **list)
   count = 0;
 
   while (temp != NULL){
-    // Read all clients info until "GLOBAL STATS"
     while (token != NULL && strncmp(token, "GLOBAL STATS", strlen("GLOBAL STATS")) != 0){
       switch (count){
       case 0:

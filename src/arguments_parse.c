@@ -4,7 +4,6 @@
 void arguments_init(struct arguments *arguments)
 {
     arguments->name = "";
-    arguments->ip = "";
     arguments->port = "";
 }
 
@@ -16,14 +15,10 @@ error_t parse_opt (int key, char *arg, struct argp_state *state)
     case 'n':
       arguments->name = arg;
       break;
-    case 'i':
-      arguments->ip = arg;
-      break;
     case 'p':
       arguments->port = arg;
       break;
 	 
-
     case ARGP_KEY_ARG:
       if (state->arg_num > 5)
         argp_usage (state);
