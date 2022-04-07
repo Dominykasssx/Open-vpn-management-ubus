@@ -1,0 +1,1 @@
+int parseClient(char *buffer, struct client **list);
