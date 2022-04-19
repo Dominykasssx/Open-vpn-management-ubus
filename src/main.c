@@ -39,10 +39,10 @@ int main(int argc, char *argv[])
     int socket;
     rc = socketConnect(atoi(arguments.port),&socket);
     if (rc != 0){
-        printf("FAILED CONNECT TO SOCKET");
+        printf("Can't establish connection to management system\n");
         return 1;
     }
-    ubusStart(socket);
+    ubusStart(socket, arguments.name);
 
     return 0;
 }

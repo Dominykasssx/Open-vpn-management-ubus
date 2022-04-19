@@ -14,6 +14,7 @@ static int delete_client(struct ubus_context *ctx, struct ubus_object *obj,
 
 static int count;
 int sck;
+char progName[50] = "openvpn";
 
 enum
 {
@@ -33,7 +34,7 @@ static struct ubus_object_type client_object_type =
 	UBUS_OBJECT_TYPE("openvpn", client_methods);
 
 static struct ubus_object client_object = {
-	.name = "openvpn",
+	.name = progName,
 	.type = &client_object_type,
 	.methods = client_methods,
 	.n_methods = ARRAY_SIZE(client_methods),
@@ -55,7 +56,7 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 	table = blobmsg_open_array(&b, "Clients");
 	struct client *temp = list;
 	while (list != NULL){
-		table1 = blobmsg_open_array(&b, "Client :");
+		table1 = blobmsg_open_array(&b, NULL);
 
 		blobmsg_add_string(&b, "Common name", list->name);
 		blobmsg_add_string(&b, "Full address", list->realAddress);
@@ -105,11 +106,11 @@ static int delete_client(struct ubus_context *ctx, struct ubus_object *obj,
 	return 0;
 }
 
-int ubusStart(int socket)
+int ubusStart(int socket, char *programName)
 {
 	sck = socket;
+	snprintf(progName, 50, "openvpn.%s", programName);
 	struct ubus_context *ctx;
-
 	uloop_init();
 
 	ctx = ubus_connect(NULL);
