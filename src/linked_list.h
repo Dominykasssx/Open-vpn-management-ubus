@@ -13,3 +13,4 @@ struct client
 void addToList(struct client **list, struct client *client);
 struct client* createNodeClient(char *name, char *realAddress, char *bytesSent, char *bytesReceived, char *connectedSince);
 void printClients(struct client *clients);
+void deleteList(struct client *list);

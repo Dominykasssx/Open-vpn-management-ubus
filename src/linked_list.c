@@ -31,3 +31,13 @@ struct client* createNodeClient(char *name, char *realAddress, char *bytesSent, 
     client->next = NULL;
     return client;
 }
+
+void deleteList(struct client *list) {
+	struct client *to_delete = list;
+    while (list != NULL) 
+	{
+        list = (list)->next;
+        free(to_delete);
+        to_delete = list;
+    }
+}

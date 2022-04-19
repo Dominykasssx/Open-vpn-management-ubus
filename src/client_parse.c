@@ -18,7 +18,7 @@ int parseClient(char *buffer, struct client **list)
   char *last_reference;
   char *token;
   int count = 0;
-
+  //deleteList(list);
   char delimeter[] = "\n\r,";
   token = strtok(buffer, delimeter);
 

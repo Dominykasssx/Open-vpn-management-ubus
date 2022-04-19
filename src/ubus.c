@@ -55,21 +55,23 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 	blob_buf_init(&b, 0);
 	table = blobmsg_open_array(&b, "Clients");
 	struct client *temp = list;
-	while (list != NULL){
-		table1 = blobmsg_open_array(&b, NULL);
+	while (temp != NULL){
+		table1 = blobmsg_open_array(&b, "CLIENT");
 
-		blobmsg_add_string(&b, "Common name", list->name);
-		blobmsg_add_string(&b, "Full address", list->realAddress);
-		blobmsg_add_string(&b, "Virtual address", list->virtualAddress);
-		blobmsg_add_string(&b, "Bytes sent", list->bytesSent);
-		blobmsg_add_string(&b, "Bytes received", list->bytesReceived);
-		blobmsg_add_string(&b, "Connected since", list->connectedSince);
-		blobmsg_add_string(&b, "Last referred", list->last_reference);
+		blobmsg_add_string(&b, "Common name", temp->name);
+		blobmsg_add_string(&b, "Full address", temp->realAddress);
+		blobmsg_add_string(&b, "Virtual address", temp->virtualAddress);
+		blobmsg_add_string(&b, "Bytes sent", temp->bytesSent);
+		blobmsg_add_string(&b, "Bytes received", temp->bytesReceived);
+		blobmsg_add_string(&b, "Connected since", temp->connectedSince);
+		blobmsg_add_string(&b, "Last referred", temp->last_reference);
 		blobmsg_close_table(&b, table1);
-		list = list->next;
+		temp = temp->next;
 	}
 	blobmsg_close_table(&b, table);
 	ubus_send_reply(ctx, req, b.head);
+	printList(list);
+	deleteList(list);
 	blob_buf_free(&b);
 
 	return 0;
