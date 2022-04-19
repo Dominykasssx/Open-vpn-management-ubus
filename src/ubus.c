@@ -3,6 +3,7 @@
 #include "ubus.h"
 #include "socket.h"
 #include "linked_list.h"
+#include "client_parse.h"
 
 static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 					   struct ubus_request_data *req, const char *method,
@@ -56,7 +57,7 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 	table = blobmsg_open_array(&b, "Clients");
 	struct client *temp = list;
 	while (temp != NULL){
-		table1 = blobmsg_open_array(&b, "CLIENT");
+		table1 = blobmsg_open_array(&b, "Client");
 
 		blobmsg_add_string(&b, "Common name", temp->name);
 		blobmsg_add_string(&b, "Full address", temp->realAddress);
@@ -70,6 +71,7 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 	}
 	blobmsg_close_table(&b, table);
 	ubus_send_reply(ctx, req, b.head);
+
 	deleteList(list);
 	blob_buf_free(&b);
 
@@ -92,7 +94,6 @@ static int delete_client(struct ubus_context *ctx, struct ubus_object *obj,
 		return UBUS_STATUS_INVALID_ARGUMENT;
 	userInput = blobmsg_get_string(tb[CLIENT_NAME]);
 	blob_buf_init(&b, 0);
-	printf("\n\n%s\n\n", userInput);
 
 	snprintf(command, SIZE, "kill %s\r\n", userInput);
 	int rc = sendCommand(sck, command, &buffer);
