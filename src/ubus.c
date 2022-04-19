@@ -70,7 +70,6 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 	}
 	blobmsg_close_table(&b, table);
 	ubus_send_reply(ctx, req, b.head);
-	printList(list);
 	deleteList(list);
 	blob_buf_free(&b);
 
