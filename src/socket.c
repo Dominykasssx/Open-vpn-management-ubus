@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sys/socket.h>
+#include <stdlib.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
@@ -36,12 +37,13 @@ int socketConnect(int port, int* oSocket)
 }
 
 int sendCommand(int sock, char *command, char *outBuf){
-    char buffer[SIZE];
+    char *buffer = (char *)malloc(sizeof(char) * SIZE);;
     int valread;
     int rc = send(sock , command , strlen(command) , 0 );
     sleep(0.5);
     printf("Command %s sent\n", command);
     valread = read( sock , buffer, SIZE);
     snprintf(outBuf, SIZE, "%s", buffer);
+    free(buffer);
     return rc;
 }

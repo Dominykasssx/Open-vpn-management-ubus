@@ -48,10 +48,11 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 	void *table, *table1;
 	struct client *list = NULL;
 	struct blob_buf b = {};
-	char buffer[SIZE];
+	char *buffer = (char *)malloc(sizeof(char) * SIZE);
 	char *command = "status\n\r";
-	sendCommand(sck, command, &buffer);
-	parseClient(&buffer, &list);
+	sendCommand(sck, command, buffer);
+	parseClient(buffer, &list);
+
 
 	blob_buf_init(&b, 0);
 	table = blobmsg_open_array(&b, "Clients");
@@ -74,6 +75,7 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 
 	deleteList(list);
 	blob_buf_free(&b);
+	free(buffer);
 
 	return 0;
 }
@@ -85,7 +87,7 @@ static int delete_client(struct ubus_context *ctx, struct ubus_object *obj,
 	struct blob_attr *tb[__CLIENT_MAX];
 	struct blob_buf b = {};
 	char *userInput;
-	char buffer[SIZE];
+	char *buffer = (char *)malloc(sizeof(char) * SIZE);
 	char command[SIZE];
 
 	blobmsg_parse(client_policy, __CLIENT_MAX, tb, blob_data(msg), blob_len(msg));
@@ -96,7 +98,7 @@ static int delete_client(struct ubus_context *ctx, struct ubus_object *obj,
 	blob_buf_init(&b, 0);
 
 	snprintf(command, SIZE, "kill %s\r\n", userInput);
-	int rc = sendCommand(sck, command, &buffer);
+	int rc = sendCommand(sck, command, buffer);
 	if (rc != 0){
 
 		blobmsg_add_string(&b, NULL, "Successfully tried to kill client");
@@ -104,6 +106,7 @@ static int delete_client(struct ubus_context *ctx, struct ubus_object *obj,
 
 	ubus_send_reply(ctx, req, b.head);
 	blob_buf_free(&b);
+	free(buffer);
 
 	return 0;
 }
