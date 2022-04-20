@@ -16,7 +16,7 @@
 #include "client_parse.h"
 #include "ubus.h"
 
-char *progname = "main";
+char *progname = "open-vpn-management";
 
 void usage(void) 
 {

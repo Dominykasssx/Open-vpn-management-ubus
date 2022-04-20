@@ -58,7 +58,7 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 	table = blobmsg_open_array(&b, "Clients");
 	struct client *temp = list;
 	while (temp != NULL){
-		table1 = blobmsg_open_array(&b, "Client");
+		table1 = blobmsg_open_table(&b, "Client");
 
 		blobmsg_add_string(&b, "Common name", temp->name);
 		blobmsg_add_string(&b, "Full address", temp->realAddress);
@@ -70,7 +70,7 @@ static int get_clients(struct ubus_context *ctx, struct ubus_object *obj,
 		blobmsg_close_table(&b, table1);
 		temp = temp->next;
 	}
-	blobmsg_close_table(&b, table);
+	blobmsg_close_array(&b, table);
 	ubus_send_reply(ctx, req, b.head);
 
 	deleteList(list);
